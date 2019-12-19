@@ -1,0 +1,22 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-flashbacker-dev-161408-authRole",
+            "UnauthRoleArn": "arn:aws:iam::625343483641:role/amplify-flashbacker-dev-161408-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::625343483641:role/amplify-flashbacker-dev-161408-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-flashbacker-dev-161408-deployment",
+            "UnauthRoleName": "amplify-flashbacker-dev-161408-unauthRole",
+            "StackName": "amplify-flashbacker-dev-161408",
+            "StackId": "arn:aws:cloudformation:eu-west-2:625343483641:stack/amplify-flashbacker-dev-161408/0aa6e1c0-21a9-11ea-b49c-060395953c4e",
+            "AmplifyAppId": "d34ew2h90arn1p"
+        },
+        "categories": {
+            "auth": {
+                "flashbackerf6a9ac66": {
+                    "hostedUIProviderCreds": "[]"
+                }
+            }
+        }
+    }
+}

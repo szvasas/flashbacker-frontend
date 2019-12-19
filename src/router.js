@@ -1,17 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import NewEntry from "./views/NewEntry";
+import Welcome from "./views/Welcome";
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/welcome',
+      name: 'welcome',
+      component: Welcome
+    },
+    {
+      path: '/newEntry',
       name: 'new-entry',
-      component: NewEntry
+      component: NewEntry,
+      meta: {requiresAuth: true}
     },
     {
       path: '/allEntries',
@@ -19,7 +26,30 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/AllEntries.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/AllEntries.vue'),
+      meta: {requiresAuth: true}
     }
   ]
 })
+
+router.beforeResolve(async (to, from, next) => {
+  if (to.path === '/') {
+    try {
+      await Vue.prototype.$Amplify.Auth.currentAuthenticatedUser();
+      next("/newEntry")
+    } catch (e) {
+      next("/welcome")
+    }
+  } else if (to.matched.some(record => record.meta.requiresAuth)) {
+    try {
+      await Vue.prototype.$Amplify.Auth.currentAuthenticatedUser();
+      next()
+    } catch (e) {
+      next("/welcome")
+    }
+  } else {
+    next()
+  }
+})
+
+export default router
