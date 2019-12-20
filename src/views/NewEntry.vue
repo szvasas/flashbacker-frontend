@@ -40,17 +40,22 @@
             >
                 Save
             </v-btn>
-
+            <v-snackbar v-model="snackbar" :timeout="1000" bottom>
+                {{ snackBarMessage }}
+            </v-snackbar>
         </v-form>
     </v-container>
 </template>
 
 <script>
-  import axios from 'axios'
+  import restClient from '@/restclient'
 
   export default {
     name: "NewEntry",
     data: () => ({
+      snackbar: false,
+      snackBarMessage: '',
+      snackBarMessageSuccess: "Entry is successfully saved!",
       storyFormValid: false,
       textRules: [
         v => !!v || "Story text is required",
@@ -66,22 +71,21 @@
     methods: {
       async save() {
         if (this.$refs.storyForm.validate()) {
-          const currentSession = await this.$Amplify.Auth.currentSession();
-          const jwtToken = currentSession.getAccessToken().getJwtToken();
-
-          const header = {
-            headers: {
-              'Authorization': "Bearer " + jwtToken
-            }
-          };
-
           const body = {
             "location": this.location,
             "dateHappened": this.dateHappened,
             "text": this.text
           };
-          const axiosResponse = await axios.post("http://localhost:8081/stories", body, header)
-          console.log(axiosResponse)
+
+          try {
+            await restClient.post("/stories", body);
+            this.snackbar = true;
+            this.snackBarMessage = this.snackBarMessageSuccess
+          } catch (e) {
+            this.snackbar = true;
+            this.snackBarMessage = e.message;
+            console.log(e)
+          }
         }
       }
     }
