@@ -46,6 +46,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: "NewEntry",
     data: () => ({
@@ -62,9 +64,24 @@
       dateHappened: new Date().toISOString().substr(0, 10)
     }),
     methods: {
-      save() {
+      async save() {
         if (this.$refs.storyForm.validate()) {
-          console.log("valid")
+          const currentSession = await this.$Amplify.Auth.currentSession();
+          const jwtToken = currentSession.getAccessToken().getJwtToken();
+
+          const header = {
+            headers: {
+              'Authorization': "Bearer " + jwtToken
+            }
+          };
+
+          const body = {
+            "location": this.location,
+            "dateHappened": this.dateHappened,
+            "text": this.text
+          };
+          const axiosResponse = await axios.post("http://localhost:8081/stories", body, header)
+          console.log(axiosResponse)
         }
       }
     }
