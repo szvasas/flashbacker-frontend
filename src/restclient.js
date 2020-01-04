@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Vue from 'vue'
+import {backendUrl} from "./env-config";
 
 const flashbackerBackendClient = axios.create({
-  baseURL: "http://localhost:8081"
+  baseURL: backendUrl
 })
 
 flashbackerBackendClient.interceptors.request.use(async (config) => {
