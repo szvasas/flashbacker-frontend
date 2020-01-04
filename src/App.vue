@@ -4,7 +4,7 @@
             <router-view/>
         </v-content>
         <v-bottom-navigation
-                shift
+                :shift="isAuthenticated"
                 app
                 height="8%"
         >
@@ -13,8 +13,8 @@
                 <v-icon>create</v-icon>
             </v-btn>
 
-            <v-btn link to="/allEntries" height="100%" v-if="isAuthenticated">
-                <span>All Entries</span>
+            <v-btn link to="/browseEntries" height="100%" v-if="isAuthenticated">
+                <span>Browse</span>
                 <v-icon>book</v-icon>
             </v-btn>
             <v-btn @click="onLogin" height="100%" v-if="!isAuthenticated">

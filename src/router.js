@@ -21,12 +21,9 @@ const router = new Router({
       meta: {requiresAuth: true}
     },
     {
-      path: '/allEntries',
-      name: 'all-entries',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/AllEntries.vue'),
+      path: '/browseEntries',
+      name: 'browse-entries',
+      component: () => import('./views/BrowseEntries.vue'),
       meta: {requiresAuth: true}
     }
   ]
