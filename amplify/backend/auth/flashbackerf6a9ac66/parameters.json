@@ -44,15 +44,11 @@
             "Arn"
         ]
     },
-    "useDefault": "defaultSocial",
+    "useDefault": "default",
     "hostedUI": true,
     "usernameAttributes": [
         "email"
     ],
-    "hostedUIDomainName": "flashbacker-dev",
-    "authProvidersUserPool": [],
-    "hostedUIProviderMeta": "[]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8080/login/oauth2/code/cognito/\"],\"LogoutURLs\":[\"http://localhost:8080/logout/\"]}",
     "userPoolGroupList": [],
     "dependsOn": []
 }

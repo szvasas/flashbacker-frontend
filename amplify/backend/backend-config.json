@@ -1,9 +1,9 @@
 {
-	"auth": {
-		"flashbackerf6a9ac66": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": []
-		}
-	}
+    "auth": {
+        "flashbackerf6a9ac66": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": []
+        }
+    }
 }
