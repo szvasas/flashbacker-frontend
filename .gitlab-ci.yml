@@ -1,4 +1,6 @@
-build:
+docker-image-build:
+  only:
+    - master
   image: docker:19.03.1
   stage: build
   services:
