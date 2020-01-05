@@ -34,7 +34,7 @@
         let response = await restClient.get("/stories");
         let embeddedData = response.data._embedded
         if (embeddedData) {
-          this.loadedStories = [...embeddedData.stories]
+          this.loadedStories = [...embeddedData.stories.reverse()]
         } else {
           this.loadedStories = []
         }
