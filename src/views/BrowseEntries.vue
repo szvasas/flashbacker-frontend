@@ -32,7 +32,12 @@
     methods: {
       async loadStories() {
         let response = await restClient.get("/stories");
-        this.loadedStories = [...response.data._embedded.stories]
+        let embeddedData = response.data._embedded
+        if (embeddedData) {
+          this.loadedStories = [...embeddedData.stories]
+        } else {
+          this.loadedStories = []
+        }
       }
     }
   }
