@@ -34,6 +34,7 @@
     name: "App",
     created() {
       this.$store.dispatch('initUserHandling')
+      this.$store.dispatch('retrieveStoryEndpointUrl')
     },
     computed: {
       isAuthenticated() {

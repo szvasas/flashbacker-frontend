@@ -1,16 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router'
+import axios from 'axios'
+import {backendUrl} from "@/env-config";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    storyEndpointUrl: null
   },
   mutations: {
     storeUser(state, user) {
       state.user = user
+    },
+    storeStoryEndpointUrl(state, storyEndpointUrl) {
+      state.storyEndpointUrl = storyEndpointUrl
     }
   },
   getters: {
@@ -19,6 +25,9 @@ export default new Vuex.Store({
     },
     isAuthenticated(state) {
       return state.user !== null
+    },
+    storyEndpoint(state) {
+      return state.storyEndpoint
     }
   },
   actions: {
@@ -43,6 +52,15 @@ export default new Vuex.Store({
     },
     logout() {
       Vue.prototype.$Amplify.Auth.signOut()
+    },
+    async retrieveStoryEndpointUrl({commit}) {
+      try {
+        let response = await axios.get(backendUrl)
+        let url = response.data._links.stories.href
+        commit('storeStoryEndpointUrl', url)
+      } catch(e) {
+        console.error("Cannot retrieve endpoint URL from the server", e)
+      }
     }
   }
 })

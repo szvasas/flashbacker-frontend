@@ -99,13 +99,13 @@
           };
 
           try {
-            await restClient.post("/stories", body);
+            await restClient.post(this.$store.state.storyEndpointUrl, body);
             this.snackbar = true;
             this.snackBarMessage = this.snackBarMessageSuccess
           } catch (e) {
             this.snackbar = true;
             this.snackBarMessage = e.message;
-            console.log(e)
+            console.error(e)
           }
         }
       }

@@ -1,10 +1,7 @@
 import axios from 'axios'
 import Vue from 'vue'
-import {backendUrl} from "./env-config";
 
-const flashbackerBackendClient = axios.create({
-  baseURL: backendUrl
-})
+const flashbackerBackendClient = axios.create()
 
 flashbackerBackendClient.interceptors.request.use(async (config) => {
   const currentSession = await Vue.prototype.$Amplify.Auth.currentSession();
