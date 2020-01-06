@@ -4,24 +4,20 @@
             <router-view/>
         </v-content>
         <v-bottom-navigation
-                :shift="isAuthenticated"
+                v-if="this.$route.meta.requiresAuth"
                 app
                 height="8%"
         >
-            <v-btn link to="/newEntry" height="100%" v-if="isAuthenticated">
+            <v-btn link to="/newEntry" height="100%">
                 <span>New Entry</span>
                 <v-icon>create</v-icon>
             </v-btn>
 
-            <v-btn link to="/browseEntries" height="100%" v-if="isAuthenticated">
+            <v-btn link to="/browseEntries" height="100%">
                 <span>Browse</span>
                 <v-icon>book</v-icon>
             </v-btn>
-            <v-btn @click="onLogin" height="100%" v-if="!isAuthenticated">
-                <span>Login</span>
-                <v-icon>mdi-login</v-icon>
-            </v-btn>
-            <v-btn @click="onLogout" height="100%" v-if="isAuthenticated">
+            <v-btn @click="onLogout" height="100%">
                 <span>Logout</span>
                 <v-icon>mdi-logout</v-icon>
             </v-btn>
@@ -36,15 +32,7 @@
       this.$store.dispatch('initUserHandling')
       this.$store.dispatch('retrieveStoryEndpointUrl')
     },
-    computed: {
-      isAuthenticated() {
-        return this.$store.getters.isAuthenticated
-      }
-    },
     methods: {
-      onLogin() {
-        this.$store.dispatch('login')
-      },
       onLogout() {
         this.$store.dispatch('logout')
       }
