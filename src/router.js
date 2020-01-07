@@ -44,6 +44,8 @@ router.beforeResolve(async (to, from, next) => {
     } catch (e) {
       next("/welcome")
     }
+  } else if (!to.matched || !to.matched.length) {
+    next("/")
   } else {
     next()
   }

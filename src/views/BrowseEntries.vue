@@ -31,7 +31,8 @@
     }),
     methods: {
       async loadStories() {
-        let response = await restClient.get(this.$store.state.storyEndpointUrl);
+        let endpointUrl = await this.$store.dispatch('retrieveStoryEndpointUrl')
+        let response = await restClient.get(endpointUrl);
         let embeddedData = response.data._embedded
         if (embeddedData) {
           this.loadedStories = [...embeddedData.stories.reverse()]

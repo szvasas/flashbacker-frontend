@@ -99,7 +99,8 @@
           };
 
           try {
-            await restClient.post(this.$store.state.storyEndpointUrl, body);
+            let endpointUrl = await this.$store.dispatch('retrieveStoryEndpointUrl')
+            await restClient.post(endpointUrl, body);
             this.snackbar = true;
             this.snackBarMessage = this.snackBarMessageSuccess
           } catch (e) {

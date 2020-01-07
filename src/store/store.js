@@ -15,11 +15,6 @@ export default new Vuex.Store({
       state.storyEndpointUrl = storyEndpointUrl
     }
   },
-  getters: {
-    storyEndpoint(state) {
-      return state.storyEndpoint
-    }
-  },
   actions: {
     initUserHandling() {
       Vue.prototype.$Amplify.Hub.listen("auth", ({payload: {event}}) => {
@@ -34,11 +29,15 @@ export default new Vuex.Store({
     logout() {
       Vue.prototype.$Amplify.Auth.signOut()
     },
-    async retrieveStoryEndpointUrl({commit}) {
+    async retrieveStoryEndpointUrl({commit, state}) {
+      if (state.storyEndpointUrl) {
+        return state.storyEndpointUrl
+      }
       try {
         let response = await axios.get(backendUrl)
         let url = response.data._links.stories.href
         commit('storeStoryEndpointUrl', url)
+        return url
       } catch(e) {
         console.error("Cannot retrieve endpoint URL from the server", e)
       }
