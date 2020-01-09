@@ -35,7 +35,7 @@ export default new Vuex.Store({
       }
       try {
         let response = await axios.get(backendUrl)
-        let url = response.data._links.stories.href
+        let url = response.data._links.stories.href.split("{")[0]
         commit('storeStoryEndpointUrl', url)
         return url
       } catch(e) {

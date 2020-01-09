@@ -22,41 +22,50 @@
     name: "BrowseEntries",
     mounted() {
       this.loadStories()
+      this.setUpLoadOnScroll();
     },
     destroyed() {
       this.loadedStories = null
     },
     data: () => ({
-      loadedStories: null
+      loadedStories: null,
+      nextLink: null,
+      pageSizeLimit: 5
     }),
     methods: {
       async loadStories() {
         let endpointUrl = await this.$store.dispatch('retrieveStoryEndpointUrl')
-        let response = await restClient.get(endpointUrl);
+        let response = await restClient.get(`${endpointUrl}?limit=${this.pageSizeLimit}`);
         let embeddedData = response.data._embedded
+        if (response.data._links.next) {
+          this.nextLink = response.data._links.next.href
+        }
         if (embeddedData) {
-          this.loadedStories = [...this.sortStories(embeddedData.stories)]
+          this.loadedStories = [...embeddedData.stories]
         } else {
           this.loadedStories = []
         }
       },
-      // The method sorts descending by dateHappened and within each dateHappened group by timestampCreated ascending.
-      sortStories(storiesArray) {
-        return storiesArray.sort(function (s1, s2) {
-          if (s1.dateHappened > s2.dateHappened) {
-            return -1;
-          } else if (s2.dateHappened > s1.dateHappened) {
-            return 1;
-          } else {
-            if (s1.timestampCreated < s2.timestampCreated) {
-              return -1;
-            } else if (s2.timestampCreated < s1.timestampCreated) {
-              return 1;
-            } else {
-              return 0
-            }
+      async loadMoreStories(url) {
+        let response = await restClient.get(url);
+        let embeddedData = response.data._embedded
+        if (response.data._links.next) {
+          this.nextLink = response.data._links.next.href
+        } else {
+          this.nextLink = null
+        }
+        if (embeddedData) {
+          this.loadedStories = this.loadedStories.concat(embeddedData.stories)
+        }
+      },
+      setUpLoadOnScroll () {
+        window.onscroll = () => {
+          let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+
+          if (bottomOfWindow && this.nextLink) {
+            this.loadMoreStories(this.nextLink)
           }
-        })
+        };
       }
     }
   }
