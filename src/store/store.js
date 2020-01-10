@@ -33,14 +33,11 @@ export default new Vuex.Store({
       if (state.storyEndpointUrl) {
         return state.storyEndpointUrl
       }
-      try {
-        let response = await axios.get(backendUrl)
-        let url = response.data._links.stories.href.split("{")[0]
-        commit('storeStoryEndpointUrl', url)
-        return url
-      } catch(e) {
-        console.error("Cannot retrieve endpoint URL from the server", e)
-      }
+
+      let response = await axios.get(backendUrl)
+      let url = response.data._links.stories.href.split("{")[0]
+      commit('storeStoryEndpointUrl', url)
+      return url
     }
   }
 })

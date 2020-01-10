@@ -70,7 +70,8 @@
     data: () => ({
       snackbar: false,
       snackBarMessage: '',
-      snackBarMessageSuccess: "Entry is successfully saved!",
+      successSavingMessage: "Entry is successfully saved!",
+      errorSavingMessage: "Connection Error. Entry could not be saved!",
       storyFormValid: false,
       showLocationField: false,
       showDateHappenedField: false,
@@ -102,11 +103,10 @@
             let endpointUrl = await this.$store.dispatch('retrieveStoryEndpointUrl')
             await restClient.post(endpointUrl, body);
             this.snackbar = true;
-            this.snackBarMessage = this.snackBarMessageSuccess
+            this.snackBarMessage = this.successSavingMessage
           } catch (e) {
             this.snackbar = true;
-            this.snackBarMessage = e.message;
-            console.error(e)
+            this.snackBarMessage = this.errorSavingMessage
           }
         }
       }
