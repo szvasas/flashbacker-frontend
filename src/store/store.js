@@ -8,7 +8,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    storyEndpointUrl: null
+    storyEndpointUrl: null,
+    HttpStatus: {
+      OK : 200,
+      CREATED : 201,
+      NO_CONTENT: 204
+    }
   },
   mutations: {
     storeStoryEndpointUrl(state, storyEndpointUrl) {

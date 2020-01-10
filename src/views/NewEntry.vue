@@ -101,14 +101,20 @@
 
           try {
             let endpointUrl = await this.$store.dispatch('retrieveStoryEndpointUrl')
-            await restClient.post(endpointUrl, body);
-            this.snackbar = true;
-            this.snackBarMessage = this.successSavingMessage
+            let response = await restClient.post(endpointUrl, body);
+            if (response.status === this.$store.state.HttpStatus.CREATED) {
+              this.showMessage(this.successSavingMessage)
+            } else {
+              this.showMessage(this.errorSavingMessage)
+            }
           } catch (e) {
-            this.snackbar = true;
-            this.snackBarMessage = this.errorSavingMessage
+            this.showMessage(this.errorSavingMessage)
           }
         }
+      },
+      showMessage(message) {
+        this.snackbar = true;
+        this.snackBarMessage = message
       }
     }
   }
